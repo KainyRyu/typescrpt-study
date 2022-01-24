@@ -32,4 +32,24 @@
         }
     }
 
+    // printLoginState(state)
+    // success -> body
+    // fail -> reason
+    type Success = {
+        body: {
+            id: string;
+            name: string;
+        }
+    }
+    type Fail = {
+        reason: 'Wrong password';
+    }
+    type LoginStateToPrint = Success | Fail
+    function printLoginState(id: string, password: string): LoginStateToPrint  {
+        return {
+            id: String;
+            password: String;
+        }
+    }
+
 }
