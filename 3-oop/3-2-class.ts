@@ -18,6 +18,10 @@
       this.coffeeBeans = coffeeBeans;
     }
 
+    static makeMachine(coffeeBeans: number): CoffeeMaker {
+      return new CoffeeMaker(coffeeBeans);
+    } // 외부에서도
+
     makeCoffee(shots: number): CoffeeCup {
       if (this.coffeeBeans < shots * CoffeeMaker.BEANS_GRAMM_PER_SHOT) {
         throw new Error('Not enough coffee beans!');
@@ -32,5 +36,12 @@
 
   const maker = new CoffeeMaker(32);
   // new = 이 class의 instance를 만든다
+  const maker2 = new CoffeeMaker(14);
   console.log(maker);
+
+  const maker3 = CoffeeMaker.makeMachine(3);
+  // 외부에서도 간단하게 makeMachine 함수에 접근 가능
+  // static 지우면 외부에서 class이용해서 함수에 접근 불가
+  // => maker2.makeMachine 등 만들어진 obj 안에서 함수 호출 가능
+  // 근데 커피 기계를 이미 만들고 나서 또 기계를 만드는건 말이 안되자놔,,,?
 }
