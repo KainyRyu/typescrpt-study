@@ -16,9 +16,8 @@
 
     private constructor(coffeeBeans: number) {
       this.coffeeBeans = coffeeBeans;
-    } // contructor를 private로 만듦으로 
-    // 외부에서 object를 만들 수 없음. 
-    
+    } // contructor를 private로 만듦으로
+    // 외부에서 object를 만들 수 없음.
 
     static makeMachine(coffeeBeans: number): CoffeeMaker {
       return new CoffeeMaker(coffeeBeans);
@@ -43,7 +42,7 @@
     }
   }
 
-  const maker = CoffeeMaker.makeMachine(32); 
+  const maker = CoffeeMaker.makeMachine(32);
   // 내부 함수 makeMachine을 사용해서 만들어야 한다는걸 알 수 있음.
 
   // const maker = new CoffeeMaker(32);
@@ -52,6 +51,47 @@
   // 이제 이렇게 coffeeBeans 접근 불가
   maker.fillCoffeeBeans(32); // 이렇게 접근해야
 
-  // clss를 만들 때 외부에서 접근할 수 있는건 무엇인지, 
+  // clss를 만들 때 외부에서 접근할 수 있는건 무엇인지,
   // 내부적으로만 가지고있어야 하는 데이터는 무엇인지 결정할 수 있음
+
+  class User {
+    private firstName: string;
+    private lastName: string;
+    // fullName: string;
+    get fullName(): string {
+      return `${this.firstName} ${this.lastName}`;
+    }
+    constructor(firstName: string, lastName: string) {
+      this.firstName = firstName;
+      this.lastName = lastName;
+      // this.fullName= `${firstName} ${lastName}` // => 한번 할당 되고 나면 변경되지 않음
+    }
+  }
+
+  // const user = new User('Steve', 'Jobs');
+  // console.log(user.fullName);
+  // user.firstName = 'Kainy';
+  // console.log(user.fullName);
+
+  // setter, getter => 일반 변수처럼 사용가능하지만 계산해야할때 유용
+
+  class User2 {
+    get fullName(): string {
+      return `${this.firstName} ${this.lastName}`;
+    }
+    private internalAge = 4;
+    get age(): number {
+      return this.internalAge;
+    }
+    set age(num: number) {
+      this.internalAge = num;
+    }
+    constructor(private firstName: string, private lastName: string) {}
+    // 생성자에 private 을 써서 넣어줌으로 더 깔끔해짐
+  }
+
+  const user = new User2('Steve', 'Jobs');
+  console.log(user.fullName);
+  user.age = 6;
+  console.log(user.fullName);
 }
