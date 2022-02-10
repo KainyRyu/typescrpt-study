@@ -76,6 +76,7 @@
   // setter, getter => 일반 변수처럼 사용가능하지만 계산해야할때 유용
 
   class User2 {
+    // get : fullName에 접근 할 때마다 정의
     get fullName(): string {
       return `${this.firstName} ${this.lastName}`;
     }
@@ -84,6 +85,9 @@
       return this.internalAge;
     }
     set age(num: number) {
+      if (num < 0) {
+        // 이런 식으로 유효성 검사도 가능
+      }
       this.internalAge = num;
     }
     constructor(private firstName: string, private lastName: string) {}
@@ -92,6 +96,7 @@
 
   const user = new User2('Steve', 'Jobs');
   console.log(user.fullName);
+  // fullName이 함수같지만 멤버 변수에 접근하는것처럼 사용
   user.age = 6;
   console.log(user.fullName);
 }
