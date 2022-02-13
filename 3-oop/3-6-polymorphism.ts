@@ -76,7 +76,7 @@
   }
 
   class SweetCoffeeMaker extends CoffeeMachine {
-    constructor(coffeeBeans: number, sugar: number) {
+    constructor(coffeeBeans: number) {
       super(coffeeBeans);
     }
     makeCoffee(shots: number): CoffeeCup {
@@ -89,8 +89,19 @@
     }
   }
 
-  const machine = new CoffeeMachine(23);
-  const latteMachine = new CaffeLatteMachine(23, 'AAA');
-  const coffee = latteMachine.makeCoffee(1);
-  console.log(coffee);
+  const machines: CoffeeMaker[] = [
+    new CoffeeMachine(16),
+    new CaffeLatteMachine(16, 'ABC'),
+    new SweetCoffeeMaker(16),
+    new CoffeeMachine(16),
+    new CaffeLatteMachine(16, 'ABC'),
+    new SweetCoffeeMaker(16)
+  ];
+  // 내부적으로 구현된 다양한 class들이 한가지 interface들을 구현하거나 동일한 부모class를 상속했을때
+  // 어떤 class인지 구분하지 않고 공통된 api를 호출할 수 있다는것이 큰 장점
+
+  machines.forEach(machine => {
+    console.log('------------------------');
+    machine.makeCoffee(1);
+  });
 }
