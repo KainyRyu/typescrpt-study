@@ -60,6 +60,11 @@
   // 상속하기 전에 생성자를 public으로 전해주거나 protected(): 상속자들은 접근가능)로 바꿔야 함
   class CaffeLatteMachine extends CoffeeMachine {
     // 자식 class에서 overwriting 가능
+    constructor(coffeeBeans: number, public readonly serialNumber: string) {
+      // 새로 생성자 만드려면 constructor를 써야하는데 자식에서는 꼭 super를 써야함
+      // 부모클래슷에서 필요한 데이터도 받아와야하는데 super로 보내줘야 함
+      super(coffeeBeans);
+    }
     private steamMilk(): void {
       console.log('Steaming some milk...🥛');
     }
@@ -75,7 +80,7 @@
   }
 
   const machine = new CoffeeMachine(23);
-  const latteMachine = new CaffeLatteMachine(23);
+  const latteMachine = new CaffeLatteMachine(23, 'AAA');
   const coffee = latteMachine.makeCoffee(1);
   console.log(coffee);
 }
