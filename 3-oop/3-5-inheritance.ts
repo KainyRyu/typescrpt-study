@@ -6,14 +6,13 @@
 
   interface CoffeeMaker {
     makeCoffee(shots: number): CoffeeCup;
-    makeLatte(shots: number, milk: boolean): CoffeeCup;
   }
 
   class CoffeeMachine implements CoffeeMaker {
-    private static BEANS_GRAMM_PER_SHOT: number = 7;
-    private coffeeBeans: number = 0;
+    public static BEANS_GRAMM_PER_SHOT: number = 7;
+    public coffeeBeans: number = 0;
 
-    private constructor(coffeeBeans: number) {
+    public constructor(coffeeBeans: number) {
       this.coffeeBeans = coffeeBeans;
     }
 
@@ -36,11 +35,8 @@
     preheat(): void {
       console.log('heating up... 🔥');
     }
-    steamMilk(): void {
-      console.log('steaming milk..🥛');
-    }
 
-    extract(shots: number, hasMilk?: boolean): CoffeeCup {
+    extract(shots: number): CoffeeCup {
       console.log(`Pulling ${shots} shots...`);
       return {
         shots,
@@ -54,15 +50,32 @@
       return this.extract(shots);
     }
 
-    makeLatte(shots: number, hasMilk: boolean): CoffeeCup {
+    makeLatte(shots: number): CoffeeCup {
       this.grindBeans(shots);
       this.preheat();
-      this.steamMilk();
       return this.extract(shots);
     }
   }
+  // interface를 구현할 때는 implements, 상속 할 때는 extends
+  // 상속하기 전에 생성자를 public으로 전해주거나 protected(): 상속자들은 접근가능)로 바꿔야 함
+  class CaffeLatteMachine extends CoffeeMachine {
+    // 자식 class에서 overwriting 가능
+    private steamMilk(): void {
+      console.log('Steaming some milk...🥛');
+    }
+    makeCoffee(shots: number): CoffeeCup {
+      const coffee = super.makeCoffee(shots);
+      // super 사용해서  부모클래스에 있는 함수들에 접근 가능
+      this.steamMilk();
+      return {
+        ...coffee,
+        hasMilk: true
+      };
+    }
+  }
 
-  const order: CoffeeMaker = CoffeeMachine.makeMachine(50);
-
-  order.makeLatte(3, true);
+  const machine = new CoffeeMachine(23);
+  const latteMachine = new CaffeLatteMachine(23);
+  const coffee = latteMachine.makeCoffee(1);
+  console.log(coffee);
 }
