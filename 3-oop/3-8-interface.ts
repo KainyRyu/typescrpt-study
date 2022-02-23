@@ -72,7 +72,7 @@
   }
 
   // sugar maker
-  class AutomaticSugarMixer {
+  class candySugarMixer {
     private getSugar() {
       console.log("Getting some sugar from candy");
       return true;
@@ -101,7 +101,7 @@
   }
 
   class SweetCoffeeMaker extends CoffeeMachine {
-    constructor(public beans: number, private sugar: AutomaticSugarMixer) {
+    constructor(public beans: number, private sugar: candySugarMixer) {
       super(beans);
     }
 
@@ -115,7 +115,7 @@
   class SweetCaffeeLatteMachine extends CoffeeMachine {
     constructor(
       public beans: number,
-      private sugar: AutomaticSugarMixer,
+      private sugar: candySugarMixer,
       private milkFrother: CheapMilkSteamer
     ) {
       super(beans);
@@ -128,16 +128,13 @@
     }
   }
 
-  // 내부적으로 구현된 다양한 class들이 한가지 interface들을 구현하거나 동일한 부모class를 상속했을때
-  // 어떤 class인지 구분하지 않고 공통된 api를 호출할 수 있다는것이 큰 장점
-
-  machines.forEach((machine) => {
-    console.log("------------------------");
-    machine.makeCoffee(1);
-  });
-
-  // 상속이 깊어질 수록 복잡해짐
-  // 부모가 변경되면 자식들 다 변경 됨
-  // TS에서는 두 가지 이상의 부모 Class를 상속할 수 없음
-  // 그래서 composition 사용해야
+  const cheapMilkMaker = new CheapMilkSteamer();
+  const candySugar = new candySugarMixer();
+  const sweetMachine = new SweetCoffeeMaker(12, candySugar);
+  const latteMachine = new CaffeLatteMachine(12, "SS", cheapMilkMaker);
+  const sweetLatteMachine = new SweetCaffeeLatteMachine(
+    6,
+    candySugar,
+    cheapMilkMaker
+  );
 }
